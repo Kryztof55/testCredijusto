@@ -23,9 +23,15 @@ const Welcome = () => {
     telefono: "",
   });
 
+  const [isValid, setisValid] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
   const onHandleInput = (e) => {
+    if (e.target.value != "") {
+      setisValid(true);
+    } else {
+      setisValid(false);
+    }
     setUser({
       ...user,
       [e.target.name]: e.target.value,
@@ -47,6 +53,9 @@ const Welcome = () => {
           Bienvenido
         </Typography>
         <Paper className="panel" elevation={3}>
+          <Typography variant="body2" gutterBottom>
+            Llena al menos un campo
+          </Typography>
           <div className="panel-form">
             <FormControl>
               <InputLabel htmlFor="nombre">Nombre</InputLabel>
@@ -74,7 +83,13 @@ const Welcome = () => {
               <Input value={user.telefono} name="telefono" />
             </FormControl>
           </div>
-          <Button onClick={addUser} variant="contained" color="primary">
+          <Button
+            onClick={addUser}
+            variant="contained"
+            color="primary"
+            disabled={!isValid}
+            data-test="button"
+          >
             Enviar
           </Button>
         </Paper>
